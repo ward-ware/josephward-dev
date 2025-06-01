@@ -1,2 +1,5 @@
 config:
   aws:region: us-east-2
+  josephward-portfolio:path: ../portfolio/out
+  josephward-portfolio:indexDocument: index.html
+  josephward-portfolio:errorDocument: 404.html
