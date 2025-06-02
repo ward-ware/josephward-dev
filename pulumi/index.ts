@@ -1,6 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 import * as awsx from "@pulumi/awsx";
+import * as synced_folder from "@pulumi/synced-folder";
 
 //Import configuration settings
 const config = new pulumi.Config();
@@ -29,6 +30,13 @@ const ownershipControls = new aws.s3.BucketOwnershipControls("josephward-portfol
 const publicAccessBlock = new aws.s3.BucketPublicAccessBlock("josephward-portfolio-public-access-block", {
     bucket: bucket.id,
     blockPublicAcls: false,
+});
+
+const bucketFolder = new synced_folder.S3BucketFolder("bucket-folder", {
+    path: path,
+    bucketName: bucket.id,
+    acl: "public-read",
+}, { dependsOn: [ownershipControls, publicAccessBlock],
 });
 
 // Export the name of the bucket
